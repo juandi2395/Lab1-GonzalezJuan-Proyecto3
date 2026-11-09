@@ -117,7 +117,6 @@ public class SecurityConfig {
         return converter;
     }
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
@@ -137,12 +136,28 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
+                        // Login publico
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/auth/login"
                         )
                         .permitAll()
 
+                        // Nuevo cambios para Front-Juang
+                        .requestMatchers(
+                                HttpMethod.POST,
+                                "/api/auth/registro"
+                        )
+                        .permitAll()
+
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/usuarios"
+                        )
+                        .hasAuthority("SUPER-ADMIN-ROLE")
+
+
+                        // Consultas para usuarios autenticados
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/productos",
@@ -152,6 +167,7 @@ public class SecurityConfig {
                         )
                         .authenticated()
 
+                        // Crear: solo SUPER-ADMIN-ROLE
                         .requestMatchers(
                                 HttpMethod.POST,
                                 "/api/productos",
@@ -159,6 +175,7 @@ public class SecurityConfig {
                         )
                         .hasAuthority("SUPER-ADMIN-ROLE")
 
+                        // Actualizar: solo SUPER-ADMIN-ROLE
                         .requestMatchers(
                                 HttpMethod.PUT,
                                 "/api/productos/**",
@@ -166,6 +183,7 @@ public class SecurityConfig {
                         )
                         .hasAuthority("SUPER-ADMIN-ROLE")
 
+                        // Eliminar: solo SUPER-ADMIN-ROLE
                         .requestMatchers(
                                 HttpMethod.DELETE,
                                 "/api/productos/**",
@@ -173,6 +191,7 @@ public class SecurityConfig {
                         )
                         .hasAuthority("SUPER-ADMIN-ROLE")
 
+                        // Denegar cualquier otra ruta
                         .anyRequest()
                         .denyAll()
                 )

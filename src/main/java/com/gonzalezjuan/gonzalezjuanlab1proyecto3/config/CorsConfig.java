@@ -1,11 +1,12 @@
+
 package com.gonzalezjuan.gonzalezjuanlab1proyecto3.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
@@ -18,10 +19,12 @@ public class CorsConfig {
         CorsConfiguration configuration =
                 new CorsConfiguration();
 
+        // Permitir el frontend Angular 22
         configuration.setAllowedOrigins(
-                List.of("http://localhost:3000")
+                List.of("http://localhost:4200")
         );
 
+        // Metodos HTTP permitidos
         configuration.setAllowedMethods(
                 List.of(
                         "GET",
@@ -32,6 +35,7 @@ public class CorsConfig {
                 )
         );
 
+        // Encabezados permitidos
         configuration.setAllowedHeaders(
                 List.of(
                         "Authorization",
@@ -39,13 +43,18 @@ public class CorsConfig {
                 )
         );
 
+        // No utilizamos cookies para autenticacion
         configuration.setAllowCredentials(false);
+
+        // Cache de solicitudes preflight
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
+        // Aplicar CORS a los endpoints de la API
         source.registerCorsConfiguration(
-                "/**",
+                "/api/**",
                 configuration
         );
 
