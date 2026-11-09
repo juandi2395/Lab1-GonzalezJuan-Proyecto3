@@ -1,0 +1,26 @@
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-sql-lab1
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: lab1_db
+      POSTGRES_USER: lab1_user
+      POSTGRES_PASSWORD: 'lab_$$123'
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lab1_user -d lab1_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

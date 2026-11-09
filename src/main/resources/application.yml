@@ -1,0 +1,35 @@
+
+spring:
+  application:
+    name: Lab1-API
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lab1_db
+    username: lab1_user
+    password: 'lab_$123'
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: 'LAB1_LOCAL_DEVELOPMENT_JWT_SECRET_2026_CHANGE_FOR_PRODUCTION'
+    expiration-minutes: 60
+
+  seed:
+    admin-password: 'AdminLab2026!'
+    user-password: 'UsuarioLab2026!'
